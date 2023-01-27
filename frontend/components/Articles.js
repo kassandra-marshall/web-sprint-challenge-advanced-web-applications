@@ -1,26 +1,51 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import PT from 'prop-types'
+import axiosWithAuth from '../axios'
+
+function Protected() {
+  if (!localStorage.getItem('token')) {
+    return <Navigate to="/" />
+  }
+  return 'You have a token so here is the protected stuff...'
+}
 
 export default function Articles(props) {
+  const { editing, setEditing } = useState(false)
+  const { articleToEdit, setArticleToEdit } = useState('')
+  const { getArticles, articles } = props
   // ✨ where are my props? Destructure them here
 
   // ✨ implement conditional logic: if no token exists
   // we should render a Navigate to login screen (React Router v.6)
+  if (!localStorage.getItem('token')) {
+    return <Navigate to="/" />
+  }
 
   useEffect(() => {
     // ✨ grab the articles here, on first render only
-  })
+    getArticles()
+  }, [])
 
-  return (
+  const handleEdit = (e) => {
+    e.preventDefault();
+    
+  }
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+  }
+
+  return ( 
+    // !localStorage.getItem("token") ? <Navigate to='/' /> :
     // ✨ fix the JSX: replace `Function.prototype` with actual functions
     // and use the articles prop to generate articles
     <div className="articles">
       <h2>Articles</h2>
       {
-        ![].length
+        !articles.length
           ? 'No articles yet'
-          : [].map(art => {
+          : articles.map(art => {
             return (
               <div className="article" key={art.article_id}>
                 <div>
@@ -29,8 +54,8 @@ export default function Articles(props) {
                   <p>Topic: {art.topic}</p>
                 </div>
                 <div>
-                  <button disabled={true} onClick={Function.prototype}>Edit</button>
-                  <button disabled={true} onClick={Function.prototype}>Delete</button>
+                  <button disabled={editing} onClick={handleEdit}>Edit</button>
+                  <button disabled={true} onClick={handleDelete}>Delete</button>
                 </div>
               </div>
             )
