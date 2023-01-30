@@ -10,6 +10,7 @@ import axios from 'axios'
 
 const articlesUrl = 'http://localhost:9000/api/articles'
 const loginUrl = 'http://localhost:9000/api/login'
+const initialFormValues = { title: '', text: '', topic: '' }
 
 export default function App() {
   // ✨ MVP can be achieved with these states
@@ -17,6 +18,9 @@ export default function App() {
   const [articles, setArticles] = useState([])
   const [currentArticleId, setCurrentArticleId] = useState()
   const [spinnerOn, setSpinnerOn] = useState(false)
+
+  const [values, setValues] = useState(initialFormValues)
+  
 
   // ✨ Research `useNavigate` in React Router v.6
   const navigate = useNavigate()
@@ -111,6 +115,7 @@ export default function App() {
       console.log(res)
       setArticles([...articles, res.data.article])
       setMessage(res.data.message)
+      setValues(initialFormValues)
     })
     .catch(err => {
       setSpinnerOn(false)
@@ -124,10 +129,17 @@ export default function App() {
 
   const updateArticle = ({ article_id, article }) => {
     // ✨ implement
+    console.log(article)
     axiosWithAuth().put(`/articles/${article_id}`, article)
     .then(res => {
-      setArticles([...articles, res.data])
-      navigate('/articles')
+      console.log('updateArticle: ',res)
+      getArticles()
+      setArticles([...articles, res.data.article])
+      setMessage(res.data.message)
+      setValues(initialFormValues)
+
+      // navigate('/articles')
+      
     })
     .catch(err => {
       console.log({err})
@@ -169,7 +181,10 @@ export default function App() {
               setCurrentArticleId={setCurrentArticleId}
               currentArticleId={currentArticleId}
               updateArticle={updateArticle}
-              
+              articles={articles}
+              currentArticle={articles.find(element => element.article_id === currentArticleId )}
+              values={values}
+              setValues={setValues}
               />
               <Articles 
                 getArticles={getArticles}
