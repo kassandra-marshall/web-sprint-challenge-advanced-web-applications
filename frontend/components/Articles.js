@@ -34,7 +34,7 @@ export default function Articles(props) {
           ? 'No articles yet'
           : articles.map(art => {
             return (
-              <div className="article" key={art.article_id}>
+              <div className="article" key={'article_id_' + art.article_id}>
                 <div>
                   <h3>{art.title}</h3>
                   <p>{art.text}</p>

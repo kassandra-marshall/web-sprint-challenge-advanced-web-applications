@@ -112,7 +112,7 @@ export default function App() {
     axiosWithAuth().post('/articles', article)
     .then(res => {
       setSpinnerOn(false)
-      console.log(res)
+      // console.log(res)
       setArticles([...articles, res.data.article])
       setMessage(res.data.message)
       setValues(initialFormValues)
@@ -129,10 +129,10 @@ export default function App() {
 
   const updateArticle = ({ article_id, article }) => {
     // ✨ implement
-    console.log(article)
+    // console.log(article)
     axiosWithAuth().put(`/articles/${article_id}`, article)
     .then(res => {
-      console.log('updateArticle: ',res)
+      // console.log('updateArticle: ',res)
       getArticles()
       setArticles([...articles, res.data.article])
       setMessage(res.data.message)
@@ -149,7 +149,7 @@ export default function App() {
 
   const deleteArticle = article_id => {
     // ✨ implement
-    console.log(article_id)
+    // console.log(article_id)
     axiosWithAuth().delete(`/articles/${article_id}`)
     .then(res => {
       setArticles(articles.filter(article => (article.article_id !== Number(article_id))))

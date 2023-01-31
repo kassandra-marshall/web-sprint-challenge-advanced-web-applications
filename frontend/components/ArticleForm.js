@@ -28,13 +28,11 @@ export default function ArticleForm(props) {
     //   postArticle(values)
     // }
     
-    console.log('currentArticleId: ',currentArticleId)
+    // console.log('currentArticleId: ',currentArticleId)
     currentArticle ? updateArticle({article_id: currentArticle.article_id, article: values}) : postArticle(values)
   }
   const onSubmit = evt => {
     evt.preventDefault()
-    // setCurrentArticleId(currentArticle.article_id)
-    // setCurrentArticleId(currentArticle.article_id)
     articlePostUpdate()
     setCurrentArticleId()
     
